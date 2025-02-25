@@ -1,0 +1,70 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Virtual environment
+venv/
+
+# Jupyter Notebook checkpoints
+.ipynb_checkpoints/
+
+# Logs and debug files
+slurm_output/
+*.out
+
+# Data files
+data/
+train-dev-test/
+evaluation/
+predictions/
+*.csv
+*.tsv
+*.json
+*.jsonl
+*.xlsx
+*.db
+*.sqlite
+*.h5
+*.pth
+*.pkl
+
+# Model and output files
+models/
+*.h5
+*.pt
+*.onnx
+*.joblib
+*.pickle
+*.npy
+
+# Cache and temporary files
+.cache/
+*.bak
+*.swp
+*.swo
+.DS_Store
+
+# IDE and editor settings
+.vscode/
+.idea/
+*.iml
+
+# Pip and dependencies
+pip-log.txt
+pip-delete-this-directory.txt
+
+# Pytest and coverage reports
+.coverage
+htmlcov/
+*.cover
+*.py,cover
+nosetests.xml
+coverage.xml
+*.pytest_cache/
+
+# Build files
+build/
+dist/
+*.egg-info/
+MANIFEST
