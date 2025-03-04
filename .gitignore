@@ -12,6 +12,7 @@ venv/
 # Logs and debug files
 slurm_output/
 *.out
+hub/
 
 # Data files
 data/

@@ -45,11 +45,14 @@ def load_tokenizer(args):
 def formatting_func_factory(tokenizer, args):
     system_message = dict()
     system_message['nl'] = "Je bent een lexicograaf die vertrouwd is met het geven van beknopte definities van woordbetekenissen."
+    system_message['it'] = "Sei un lessicografo esperto nel fornire definizioni concise dei significati delle parole."
+    system_message['sv'] = "Du är en lexikograf som är van vid att ge kortfattade definitioner av ordens betydelser."
 
     user_message = dict()
     user_message['nl'] = 'Geef alstublieft een beknopte definitie van de betekenis van het woord "{}" in de volgende zin: {}'
+    user_message['it'] = 'Si prega di fornire una definizione concisa per il significato della parola "{}" nella seguente frase: {}'
+    user_message['sv'] = 'Vänligen ge en kortfattad definition av betydelsen av ordet "{}" i följande mening: {}'
     
-
     def formatting_func(record):
         return tokenizer.apply_chat_template([{'role': 'system', 'content': system_message[args.language]},
                                               {'role': 'user', 'content': user_message[args.language].format(record['target'], record['example'])}],

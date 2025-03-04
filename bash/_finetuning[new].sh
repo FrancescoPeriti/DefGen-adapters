@@ -1,6 +1,6 @@
 #!/bin/bash
 #SBATCH -A NAISS2024-5-148 -p alvis
-#SBATCH --gpus-per-node=A100fat:1
+#SBATCH --gpus-per-node=A100:3
 
 export HF_HOME=$TMPDIR
 export HF_DATASETS_CACHE=$TMPDIR
@@ -31,7 +31,7 @@ hugginface_token="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"
 train_filename="train-dev-test/train_dbnary_${language}.jsonl"
 dev_filename="train-dev-test/dev_dbnary_${language}.jsonl"
 
-python src/finetuning.py \
+python src/finetuning[new].py \
        --tag $tag \
        --language $language \
        --base_model_name $base_model_name \

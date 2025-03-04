@@ -13,9 +13,9 @@ pretrained_model_name_or_path=$1
 peft_model_name_or_path=$2
 test_filename=$3
 batch_size=$4
+language=$5
 
 # Parameters
-language="nl"
 hugginface_token="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"
 max_new_tokens=256 #128
 repetition_penalty=1.2
