@@ -1,0 +1,15 @@
+TODO
+peft==0.10.1
+accelerate==0.29.0
+transformers==4.40.0
+trl==0.8.6
+evaluate==0.4.3
+tqdm==4.66.2
+hugginface_hub==0.28.1
+datasets==2.18.0
+pandas==2.0.3
+numpy==1.25.1
+bert-score==0.3.13
+bitsandbytes==0.43.0
+unbabel-comet==2.2.4
+nltk==3.8.1
