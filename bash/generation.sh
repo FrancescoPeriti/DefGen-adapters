@@ -10,7 +10,6 @@ language="nl"
 for test_set in "${test_sets[@]}"; do
     filename=$(basename "$test_set")
     test_set="${test_set}_${language}.jsonl"
-    continue # Done
 
     echo "Filename: $filename"
     
@@ -33,8 +32,7 @@ language="it"
 for test_set in "${test_sets[@]}"; do
     filename=$(basename "$test_set")
     test_set="${test_set}_${language}.jsonl"
-    continue # Done
-    
+
     echo "Filename: $filename"
     
     # Pre-trained
@@ -56,7 +54,6 @@ language="sv"
 for test_set in "${test_sets[@]}"; do
     filename=$(basename "$test_set")
     test_set="${test_set}_${language}.jsonl"
-    continue
     
     echo "Filename: $filename"
 
@@ -79,7 +76,6 @@ language="no"
 for test_set in "${test_sets[@]}"; do
     filename=$(basename "$test_set")
     test_set="${test_set}_${language}.jsonl"
-    continue # done
     
     echo "Filename: $filename"
 
@@ -100,7 +96,6 @@ language="es"
 for test_set in "${test_sets[@]}"; do
     filename=$(basename "$test_set")
     test_set="${test_set}_${language}.jsonl"
-    continue # Done
     
     echo "Filename: $filename"
 
@@ -121,7 +116,6 @@ language="ja"
 for test_set in "${test_sets[@]}"; do
     filename=$(basename "$test_set")
     test_set="${test_set}_${language}.jsonl"
-    continue # Done
     
     echo "Filename: $filename"
 
@@ -142,7 +136,6 @@ language="de"
 for test_set in "${test_sets[@]}"; do
     filename=$(basename "$test_set")
     test_set="${test_set}_${language}.jsonl"
-    continue # Done
     
     echo "Filename: $filename"
 
@@ -163,7 +156,6 @@ language="pt"
 for test_set in "${test_sets[@]}"; do
     filename=$(basename "$test_set")
     test_set="${test_set}_${language}.jsonl"
-    continue # Done
     
     echo "Filename: $filename"
 
@@ -184,7 +176,6 @@ language="el"
 for test_set in "${test_sets[@]}"; do
     filename=$(basename "$test_set")
     test_set="${test_set}_${language}.jsonl"
-    continue # Done
     
     echo "Filename: $filename"
 
@@ -206,7 +197,6 @@ language="fr"
 for test_set in "${test_sets[@]}"; do
     filename=$(basename "$test_set")
     test_set="${test_set}_${language}.jsonl"
-    continue # Done
     
     echo "Filename: $filename"
 
@@ -227,7 +217,6 @@ language="tr"
 for test_set in "${test_sets[@]}"; do
     filename=$(basename "$test_set")
     test_set="${test_set}_${language}.jsonl"
-    continue # Done
     
     echo "Filename: $filename"
 
@@ -248,7 +237,6 @@ language="ca"
 for test_set in "${test_sets[@]}"; do
     filename=$(basename "$test_set")
     test_set="${test_set}_${language}.jsonl"
-    continue # Done
     
     echo "Filename: $filename"
 
@@ -269,7 +257,6 @@ language="da"
 for test_set in "${test_sets[@]}"; do
     filename=$(basename "$test_set")
     test_set="${test_set}_${language}.jsonl"
-    continue # Done
     
     echo "Filename: $filename"
 
@@ -290,7 +277,6 @@ language="ku"
 for test_set in "${test_sets[@]}"; do
     filename=$(basename "$test_set")
     test_set="${test_set}_${language}.jsonl"
-    continue # Done
     
     echo "Filename: $filename"
 
@@ -311,7 +297,6 @@ language="pl"
 for test_set in "${test_sets[@]}"; do
     filename=$(basename "$test_set")
     test_set="${test_set}_${language}.jsonl"
-    continue # Done
     
     echo "Filename: $filename"
 
@@ -332,7 +317,6 @@ language="zh"
 for test_set in "${test_sets[@]}"; do
     filename=$(basename "$test_set")
     test_set="${test_set}_${language}.jsonl"
-    continue # Done
     
     echo "Filename: $filename"
 
@@ -353,7 +337,6 @@ language="la"
 for test_set in "${test_sets[@]}"; do
     filename=$(basename "$test_set")
     test_set="${test_set}_${language}.jsonl"
-    continue # Done
     
     echo "Filename: $filename"
 
@@ -374,7 +357,6 @@ language="lt"
 for test_set in "${test_sets[@]}"; do
     filename=$(basename "$test_set")
     test_set="${test_set}_${language}.jsonl"
-    continue # Done
     
     echo "Filename: $filename"
 
@@ -395,7 +377,6 @@ language="mg"
 for test_set in "${test_sets[@]}"; do
     filename=$(basename "$test_set")
     test_set="${test_set}_${language}.jsonl"
-    continue # Done
     
     echo "Filename: $filename"
 
@@ -416,7 +397,6 @@ language="fi"
 for test_set in "${test_sets[@]}"; do
     filename=$(basename "$test_set")
     test_set="${test_set}_${language}.jsonl"
-    continue # Done
     
     echo "Filename: $filename"
 
@@ -437,7 +417,6 @@ language="ru"
 for test_set in "${test_sets[@]}"; do
     filename=$(basename "$test_set")
     test_set="${test_set}_${language}.jsonl"
-    continue # Done
     
     echo "Filename: $filename"
 
@@ -458,8 +437,6 @@ language="en"
 for test_set in "${test_sets[@]}"; do
     filename=$(basename "$test_set")
     test_set="${test_set}_${language}.jsonl"
-    continue # Done
-    
     echo "Filename: $filename"
 
     # Pre-trained
@@ -473,13 +450,12 @@ done
 #__________________________________________________________________#
 
 
-## FRENCH - FR ##  models/LlamaDictionary-fr_L27BCH/checkpoint-126661/ models/LlamaDictionary-fr_ML38BI/checkpoint-121100/
+## FRENCH - FR ## 
 #__________________________________________________________________#
 language="fr"
 for test_set in "${test_sets[@]}"; do
     filename=$(basename "$test_set")
     test_set="${test_set}_${language}.jsonl"
-    continue # Done
     
     echo "Filename: $filename"
 
@@ -494,42 +470,22 @@ done
 #__________________________________________________________________#
 
 
-
-
-
-
-#### CROSS-LINGUAL GENERATION
-# Declare language categories as arrays
-romance=("ca" "es" "it" "pt" "fr" "la")
-germanic=("da" "nl" "no" "sv" "de" "en")
-slavic=("pl" "ru")
-agglutinative=("ja" "tr" "fi")
-logographic=("zh" "el")
-other=("ku" "lt" "el")
-austronesian=("mg")
-all=("en" "fr" "de" "ru" "sv" "nl" "pl" "ku" "fi" "el" "ja" "ca" "es" "it" "tr" "pt" "zh" "no" "mg" "da" "lt" "la")
+#### CROSS-LINGUAL GENERATION using monolingual models
+languages=("en" "fr" "de" "ru" "sv" "nl" "pl" "ku" "fi" "el" "ja" "ca" "es" "it" "tr" "pt" "zh" "no" "mg" "da" "lt" "la")
 
 filename="train-dev-test/test_unseen_dbnary"
 
-for languages in all slavic; do
-    # use eval to get array elements dynamically
-    eval "languages=(\"\${${languages}[@]}\")"
-
-    # Loop through romance languages
-    for lang1 in "${languages[@]}"; do
-	for lang2 in "${languages[@]}"; do
-	    #if [[ "$lang1" != "la" ]]; then
-		#continue
-	    #fi
-            if [[ "$lang1" != "$lang2" ]]; then
-		if [[ -e "predictions/LlamaDictionary-${lang2}_ML38BI/test_unseen_dbnary_${lang1}.txt" ]]; then
-		    continue
-		fi
-		
-		model_checkpoint=$(ls -d models/LlamaDictionary-${lang2}_ML38BI/checkpoint-*)
-		echo $lang1 $lang2 $model_checkpoint #1-18
-		sbatch --time 10:00:00 --job-name ${lang1}_${lang2}-generation --output=${slurm_folder}/$lang1/LlamaDictionary-${lang2}_ML38BI/${filename}_${lang1}.out bash/_generation.sh meta-llama/Meta-Llama-3-8B-Instruct ${model_checkpoint} "${filename}_${lang1}.jsonl" 25 $lang1
-            fi
-	done
+# Loop through languages
+for lang1 in "${languages[@]}"; do
+    for lang2 in "${languages[@]}"; do
+        if [[ "$lang1" != "$lang2" ]]; then
+	    if [[ -e "predictions/LlamaDictionary-${lang2}_ML38BI/test_unseen_dbnary_${lang1}.txt" ]]; then
+	        continue
+	    fi
+	
+	    model_checkpoint=$(ls -d models/LlamaDictionary-${lang2}_ML38BI/checkpoint-*)
+	    echo $lang1 $lang2 $model_checkpoint
+	    sbatch --time 10:00:00 --job-name ${lang1}_${lang2}-generation --output=${slurm_folder}/$lang1/LlamaDictionary-${lang2}_ML38BI/${filename}_${lang1}.out bash/_generation.sh meta-llama/Meta-Llama-3-8B-Instruct ${model_checkpoint} "${filename}_${lang1}.jsonl" 25 $lang1
+        fi
     done
 done
