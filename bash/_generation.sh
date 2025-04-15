@@ -18,7 +18,7 @@ batch_size=$4
 language=$5
 
 # Parameters
-hugginface_token="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"
+hugginface_token="YOUR HUGGINFACE TOKEN"
 max_new_tokens=256 #128
 repetition_penalty=1.2
 length_penalty=1.2
