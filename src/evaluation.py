@@ -15,10 +15,14 @@ def format_prediction(text, args):
         text = text.split('assistant<|end_header_id|>')[1]
     elif 'L27BCH' in args.predictions or 'Llama-2-7b-chat-hf' in args.predictions:
         text = text.split('[/INST]')[1]
-    elif 'GEITje-7B-ultra' in args.predictions:
+    elif 'GEITje-7B-ultra' in args.predictions: # dutch model
         text = text.split('<|assistant|>')[1]
-    elif 'BVG7BU' in args.predictions:
+    elif 'BVG7BU' in args.predictions: # dutch model
         text = text.split('<|assistant|>')[1].split('.')[0] + '.'
+    elif 'M7BIV1' in args.predictions or 'Minerva' in args.predictions:
+        text = text.split('assistant<|end_header_id|>')[1]
+    elif 'L38BI' in args.predictions or 'Llama-3-8B-instruct' in args.predictions: # swedish model
+        text = text.split('assistant<|end_header_id|>')[1]
     return text.strip()
 
 def load_data(args):
@@ -60,9 +64,18 @@ def evaluation(df, args):
 
             elif metric == "bertscore":
                 evaluator, output_key = eval_[metric]
-                results[metric].append(evaluator.compute(predictions=[pred_],
-                                                         references=[def_], lang=args.language,
-                                                         model_type=args.model_type, num_layers=12)[output_key][0])
+                try:
+                    num_layers=12 if args.language!='ku' else 6
+                    results[metric].append(evaluator.compute(predictions=[pred_],
+                                                             references=[def_], lang=args.language,
+                                                             model_type=args.model_type, num_layers=num_layers)[output_key][0])
+                except:
+                    #print(pred_, def_)
+                    #print(args.language, num_layers)
+                    results[metric].append(evaluator.compute(predictions=[pred_],
+                                                             references=[def_], lang=args.language,
+                                                             model_type=args.model_type, num_layers=num_layers)[output_key][0])
+                    results[metric].append(0)
             else:
                 evaluator, output_key = eval_[metric]
                 results[metric].append(evaluator.compute(predictions=[pred_],
@@ -98,6 +111,10 @@ if __name__ == "__main__":
     parser.add_argument("--language", type=str, default="nl")
     parser.add_argument("--seed", type=int, default=42)
     args = parser.parse_args()
+
+    import os
+    stem = Path(args.test_set).stem
+    #if os.path.exists(f"{args.output_folder}/{stem}.tsv"): exit()
 
     df = load_data(args)
     df = xcomet_evaluation(df, args)

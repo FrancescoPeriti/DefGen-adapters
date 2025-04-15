@@ -38,7 +38,7 @@ def clean(text):
     text = text.replace('\n', '; ').strip()
 
     # remove punctuation as a last character
-    if len(text) > 1 and text[-1] in string.punctuation:
+    if len(text) > 1 and text[-1] in string.punctuation and text[-1] not in ['#', ')']:
         text = text[:-1]
 
     # remove double spaces
@@ -51,6 +51,10 @@ def clean(text):
     # uppercase first letter
     if len(text) > 1:
         text = text[0].upper() + text[1:]
+
+    # handle pattern like #{option|option2}#
+    if len(text) > 1 and text[0] == "{":
+        text="#"+text
 
     return fix_lemma_options(fix_parentheses(text))
 
@@ -132,6 +136,8 @@ if __name__ == '__main__':
     args = parser.parse_args()
 
     df = load_data(args, args.dbnary_filename)
+    language = args.dbnary_filename.split('_')[-1].replace('.jsonl', '')
+    df['language'] = language
     train, dev, test_seen, test_unseen = train_dev_test_split(df, args)
 
     stem = pathlib.Path(args.dbnary_filename).stem

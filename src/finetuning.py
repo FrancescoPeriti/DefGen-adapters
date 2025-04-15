@@ -10,7 +10,7 @@ from trl import SFTTrainer
 import evaluate
 from huggingface_hub import login
 from transformers import EarlyStoppingCallback
-from datasets import load_dataset, Dataset, IterableDataset
+from datasets import load_dataset, Dataset, IterableDataset, concatenate_datasets
 from peft import get_peft_model, prepare_model_for_kbit_training, LoraConfig
 from accelerate import FullyShardedDataParallelPlugin, Accelerator, PartialState
 from torch.distributed.fsdp.fully_sharded_data_parallel import FullOptimStateDictConfig, FullStateDictConfig
@@ -25,24 +25,23 @@ def formatting_func_factory(tokenizer, args):
     system_message['no'] = "Du er en leksikograf som er kjent med å gi presise definisjoner av ords betydning."
     system_message['es'] = "Eres un lexicógrafo familiarizado con proporcionar definiciones concisas de los significados de las palabras."
     system_message['ja'] = "あなたは、単語の意味の簡潔な定義を提供することに熟練した辞書編纂者です。"
-    
-    #system_message['en'] = "You are a lexicographer familiar with providing concise definitions of word meanings."
-    #system_message['tr'] = "Sen, kelime anlamlarının özlü tanımlarını sağlamaya aşina bir sözlük yazarsısın."
-    #system_message['pt'] = "Você é um lexicógrafo familiarizado com a fornecimento de definições concisas dos significados das palavras."
-    #system_message['de'] = "Du bist ein Lexikograf, der mit der Bereitstellung prägnanter Definitionen von Wortbedeutungen vertraut ist."
-    #system_message['mg'] = "Ianao dia lexicographer mahazatra amin'ny fanomezana fanazavana fohy momba ny dikan'ny teny."
-    #system_message['da'] = "Du er en leksikograf, der er vant til at give præcise definitioner af ords betydninger."
-    #system_message['ca'] = "Ets un lexicògraf familiaritzat amb la creació de definicions concises dels significats de les paraules."
-    #system_message['fr'] = "Vous êtes un lexicographe habitué à fournir des définitions concises des significations des mots."
-    #system_message['lt'] = "Jūs esate leksikografas, kuris gerai susipažinęs su trumpų žodžių reikšmių apibrėžimų pateikimu."
-    #system_message['la'] = "Es lexicographus peritus, qui breves definitiones significatuum verborum praebet."
-    #system_message['id'] = "Anda adalah seorang leksikograf yang terbiasa memberikan definisi singkat dari makna kata-kata."
-    #system_message['pl'] = "Jesteś leksykografem, który zna się na podawaniu zwięzłych definicji znaczeń słów."
-    #system_message['ku'] = "Hûn lexicographer in ku bi dayîna şîroveyên kurt ên maneya peyvên nasnamekî ne."
-    #system_message['el'] = "Είστε ένας λεξικογράφος εξοικειωμένος με την παροχή συνοπτικών ορισμών των εννοιών των λέξεων."
-    #system_message['zh'] = "你是一位熟悉提供简明单词含义定义的词典编纂者。"
-    #system_message['fi'] = "Olet sanakirjantekijä, joka tuntee sanan merkitysten ytimekkäiden määritelmien antamisen."
-    #system_message['ru'] = "Вы — лексикограф, знакомый с составлением кратких определений значений слов."
+    system_message['de'] = "Du bist ein Lexikograf, der mit der Bereitstellung prägnanter Definitionen von Wortbedeutungen vertraut ist."
+    system_message['pt'] = "Você é um lexicógrafo familiarizado com a fornecimento de definições concisas dos significados das palavras."
+    system_message['ru'] = "Вы — лексикограф, знакомый с составлением кратких определений значений слов."
+    system_message['el'] = "Είστε ένας λεξικογράφος εξοικειωμένος με την παροχή συνοπτικών ορισμών των εννοιών των λέξεων."
+    system_message['fr'] = "Vous êtes un lexicographe habitué à fournir des définitions concises des significations des mots."    
+    system_message['en'] = "You are a lexicographer familiar with providing concise definitions of word meanings."
+    system_message['tr'] = "Sen, kelime anlamlarının özlü tanımlarını sağlamaya aşina bir sözlük yazarsısın."
+    system_message['mg'] = "Ianao dia lexicographer mahazatra amin'ny fanomezana fanazavana fohy momba ny dikan'ny teny."
+    system_message['da'] = "Du er en leksikograf, der er vant til at give præcise definitioner af ords betydninger."
+    system_message['ca'] = "Ets un lexicògraf familiaritzat amb la creació de definicions concises dels significats de les paraules."
+    system_message['lt'] = "Jūs esate leksikografas, kuris gerai susipažinęs su trumpų žodžių reikšmių apibrėžimų pateikimu."
+    system_message['la'] = "Es lexicographus peritus, qui breves definitiones significatuum verborum praebet."
+    system_message['id'] = "Anda adalah seorang leksikograf yang terbiasa memberikan definisi singkat dari makna kata-kata."
+    system_message['pl'] = "Jesteś leksykografem, który zna się na podawaniu zwięzłych definicji znaczeń słów."
+    system_message['ku'] = "Hûn lexicographer in ku bi dayîna şîroveyên kurt ên maneya peyvên nasnamekî ne."
+    system_message['zh'] = "你是一位熟悉提供简明单词含义定义的词典编纂者。"
+    system_message['fi'] = "Olet sanakirjantekijä, joka tuntee sanan merkitysten ytimekkäiden määritelmien antamisen."
     
     user_message = dict()
     user_message['nl'] = 'Geef alstublieft een beknopte definitie van de betekenis van het woord "{}" in de volgende zin: {}'
@@ -51,31 +50,50 @@ def formatting_func_factory(tokenizer, args):
     user_message['es'] = 'Por favor, proporcione una definición concisa para el significado de la palabra "{}" en la siguiente oración: {}'
     user_message['no'] = 'Vennligst gi en kortfattet definisjon av betydningen av ordet "{}" i den følgende setningen: {}'
     user_message['ja'] = '次の文での「{}」という単語の意味に対する簡潔な定義を提供してください: {}'
-    
-    #user_message['en'] = 'Please provide a concise definition for the meaning of the word "{}" in the following sentence: {}'
-    #user_message['tr'] = 'Lütfen aşağıdaki cümledeki "{}" kelimesinin anlamı için özlü bir tanım sağlayın: {}'
-    #user_message['pt'] = 'Por favor, forneça uma definição concisa para o significado da palavra "{}" na seguinte frase: {}'
-    #user_message['de'] = 'Bitte geben Sie eine prägnante Definition für die Bedeutung des Wortes "{}" im folgenden Satz an: {}'
-    #user_message['mg'] = 'Azafady, omeo fanazavana fohy momba ny dikan\'ny teny "{}" ao amin\'ity fehezanteny manaraka ity: {}'
-    #user_message['da'] = 'Venligst giv en kortfattet definition af betydningen af ordet "{}" i den følgende sætning: {}'
-    #user_message['ca'] = 'Si us plau, proporcioneu una definició concisa del significat de la paraula "{}" en la següent frase: {}'
-    #user_message['fr'] = 'Veuillez fournir une définition concise du sens du mot "{}" dans la phrase suivante : {}'
-    #user_message['lt'] = 'Prašome pateikti trumpą žodžio "{}" reikšmės apibrėžimą šioje sakinyje: {}'
-    #user_message['la'] = 'Quaeso, praebe brevem definitionem significatuum verbi "{}" in sequenti sententia: {}'
-    #user_message['id'] = 'Tolong berikan definisi singkat untuk makna kata "{}" dalam kalimat berikut: {}'
-    #user_message['pl'] = 'Proszę podać zwięzłą definicję znaczenia słowa "{}" w następującym zdaniu: {}'
-    #user_message['ku'] = 'Ji kerema xwe, daxuyaniya kurt ji bo maneya peyva "{}" di gotarê jêrîn de pêşkêş bikin: {}'
-    #user_message['el'] = 'Παρακαλώ παρέχετε έναν συνοπτικό ορισμό για τη σημασία της λέξης "{}" στην παρακάτω πρόταση: {}'
-    #user_message['zh'] = '请提供单词"{}"在以下句子中的简洁定义：{}'
-    #user_message['fi'] = 'Ole hyvä ja anna lyhyt määritelmä sanan "{}" merkitykselle seuraavassa lauseessa: {}'
-    #user_message['ru'] = 'Пожалуйста, предоставьте краткое определение значения слова "{}" в следующем предложении: {}'
+    user_message['de'] = 'Bitte geben Sie eine prägnante Definition für die Bedeutung des Wortes "{}" im folgenden Satz an: {}'
+    user_message['pt'] = 'Por favor, forneça uma definição concisa para o significado da palavra "{}" na seguinte frase: {}'
+    user_message['ru'] = 'Пожалуйста, предоставьте краткое определение значения слова "{}" в следующем предложении: {}'
+    user_message['el'] = 'Παρακαλώ παρέχετε έναν συνοπτικό ορισμό για τη σημασία της λέξης "{}" στην παρακάτω πρόταση: {}'
+    user_message['fr'] = 'Veuillez fournir une définition concise du sens du mot "{}" dans la phrase suivante : {}'
+    user_message['en'] = 'Please provide a concise definition for the meaning of the word "{}" in the following sentence: {}'
+    user_message['tr'] = 'Lütfen aşağıdaki cümledeki "{}" kelimesinin anlamı için özlü bir tanım sağlayın: {}'
+    user_message['mg'] = 'Azafady, omeo fanazavana fohy momba ny dikan\'ny teny "{}" ao amin\'ity fehezanteny manaraka ity: {}'
+    user_message['da'] = 'Venligst giv en kortfattet definition af betydningen af ordet "{}" i den følgende sætning: {}'
+    user_message['ca'] = 'Si us plau, proporcioneu una definició concisa del significat de la paraula "{}" en la següent frase: {}'
+    user_message['lt'] = 'Prašome pateikti trumpą žodžio "{}" reikšmės apibrėžimą šioje sakinyje: {}'
+    user_message['la'] = 'Quaeso, praebe brevem definitionem significatuum verbi "{}" in sequenti sententia: {}'
+    user_message['id'] = 'Tolong berikan definisi singkat untuk makna kata "{}" dalam kalimat berikut: {}'
+    user_message['pl'] = 'Proszę podać zwięzłą definicję znaczenia słowa "{}" w następującym zdaniu: {}'
+    user_message['ku'] = 'Ji kerema xwe, daxuyaniya kurt ji bo maneya peyva "{}" di gotarê jêrîn de pêşkêş bikin: {}'
+    user_message['zh'] = '请提供单词"{}"在以下句子中的简洁定义：{}'
+    user_message['fi'] = 'Ole hyvä ja anna lyhyt määritelmä sanan "{}" merkitykselle seuraavassa lauseessa: {}'
+
     
     def formatting_func(record):
-        return tokenizer.apply_chat_template([{'role': 'system', 'content': system_message[args.language]},
-                                              {'role': 'user', 'content': user_message[args.language].format(record['target'], record['example'])},
+        language=record['language']
+        return tokenizer.apply_chat_template([{'role': 'system', 'content': system_message[language]},
+                                              {'role': 'user', 'content': user_message[language].format(record['target'], record['example'])},
                                               {'role': 'assistant', 'content': record['label']}],
                                              tokenize=False)
     return formatting_func
+
+
+def sample_by_language(dataset, args, max_samples=13000):
+    # Identify unique languages present in the dataset.
+    languages = set(dataset["language"]) 
+    
+    sampled_subsets = []
+    for lang in languages:
+        # Filter the dataset for the current language.
+        lang_subset = dataset.filter(lambda example: example["language"] == lang)
+        total = len(lang_subset)
+        sample_size = min(max_samples, total)
+        # Shuffle and select the sample_size number of rows.
+        lang_sampled = lang_subset.shuffle(seed=args.seed).select(range(sample_size))
+        sampled_subsets.append(lang_sampled)
+    
+    # Concatenate the sampled subsets into one dataset.
+    return concatenate_datasets(sampled_subsets)
 
 
 def train(args):
@@ -107,11 +125,17 @@ def train(args):
 
 
     if args.verbose: print('-- Load train dataset --')
-    train_dataset = load_dataset('json', data_files=args.train_filename, split='train', streaming=args.streaming, trust_remote_code=True).shuffle(seed=args.seed)#.select(range(100))
-    eval_dataset = load_dataset('json', data_files=args.dev_filename, split='train', streaming=args.streaming, trust_remote_code=True).shuffle(seed=args.seed)#.select(range(100))
+    train_dataset = load_dataset('json', data_files=args.train_filename, split='train', streaming=args.streaming, trust_remote_code=True).shuffle(seed=args.seed)
+    eval_dataset = load_dataset('json', data_files=args.dev_filename, split='train', streaming=args.streaming, trust_remote_code=True).shuffle(seed=args.seed)
     train_dataset = train_dataset.rename_column("definition", "label")
     eval_dataset = eval_dataset.rename_column("definition", "label")
-        
+
+
+    if " " in args.language and args.verbose:
+        print('-- Balancing --')
+        train_dataset = sample_by_language(train_dataset, args)
+        eval_dataset = sample_by_language(eval_dataset, args)
+
 
     if args.verbose: print(f'-- Set tuning parameters [model, device, cache] --')
     settings = dict(pretrained_model_name_or_path=args.base_model_name,

@@ -2,6 +2,8 @@
 #SBATCH -A NAISS2024-22-838 -p alvis
 #SBATCH --gpus-per-node=A40:1
 
+#22-838 -p alvis
+
 export HF_HOME=$TMPDIR
 export HF_DATASETS_CACHE=$TMPDIR
 export CUDA_VISIBLE_DEVICES="0"
