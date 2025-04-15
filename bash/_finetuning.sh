@@ -2,8 +2,6 @@
 #SBATCH -A NAISS2024-22-838 -p alvis
 #SBATCH --gpus-per-node=A40:4
 
-#5-148
-
 export HF_HOME=$TMPDIR
 export HF_DATASETS_CACHE=$TMPDIR
 export CUDA_VISIBLE_DEVICES="0,1,2,3"
@@ -29,7 +27,7 @@ early_stopping_patience=5
 early_stopping_threshold=0.001
 gradient_accumulation_steps=1
 peft_model_name="LlamaDictionary"
-hugginface_token="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"
+hugginface_token="YOUR HUGGINFACE TOKEN"
 #train_filename="train-dev-test/train_dbnary_${language}.jsonl"
 #dev_filename="train-dev-test/dev_dbnary_${language}.jsonl"
 
