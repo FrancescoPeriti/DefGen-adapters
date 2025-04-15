@@ -1,6 +1,6 @@
 slurm_folder="slurm-output/finetuning"
 
-# For all languages, we sample 13k examples in the src/finetuning.py script
+# For each language, we sample 13k examples in the src/finetuning.py script
 # We fine-tune Meta-Llama-3-8B-Instruct
 
 # Romance (R)
