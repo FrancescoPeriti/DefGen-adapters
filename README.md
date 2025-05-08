@@ -9,7 +9,7 @@ This is the official repository for our paper _TITLE_
 - [References](#references)
 
 ## Abstract
-bla bla bla ...
+The task of Definition Generation has recently gained attention as an interpretable approach to modeling word meaning. Thus far, most research has been conducted in English, with limited work and resources for other languages. In this work, we expand Definition Generation beyond English to a suite of 22 languages and evaluate Llama-based models within a monolingual, multilingual, and cross-lingual setting. Our experiments show that monolingual fine-tuning consistently outperforms pretrained baselines, with the largest gains observed in languages with lower initial performance; and that multilingual fine-tuning does not consistently improve performance on the individual fine-tuning languages. Our cross-lingual evaluation reveals that models fine-tuned on a single language typically lose the ability to generate definitions in other languages, whereas multilingual models exhibit robust generalization even to languages unseen during fine-tuning. 
 
 ## Getting Started
 Before you begin, ensure you have met the following requirements:
