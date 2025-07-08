@@ -133,10 +133,10 @@ def format_output(text, args):
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(prog='Generation')
     parser.add_argument('--language', type=str, default='en')
-    parser.add_argument('--pretrained_model_name_or_path', type=str, default='Unbabel/TowerInstruct-7B-v0.2')
+    parser.add_argument('--pretrained_model_name_or_path', type=str, default='meta-llama/Meta-Llama-3-8B-Instruct')
     parser.add_argument('--peft_model_name_or_path', type=str, default="None")
     parser.add_argument('--quantization', action='store_true')
-    parser.add_argument('--hugginface_token', type=str, default='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')
+    parser.add_argument('--hugginface_token', type=str, default='YOUR TOKEN')
     parser.add_argument('--test_filename', type=str, nargs='+', default=['data/test.jsonl'])
     parser.add_argument('--max_time', type=float, default=4.5)
     parser.add_argument('--max_new_tokens', type=int, default=512)
