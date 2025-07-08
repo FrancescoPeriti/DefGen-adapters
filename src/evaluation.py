@@ -102,7 +102,7 @@ def xcomet_evaluation(df, args):
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument("--xcomet_model", type=str, default="Unbabel/XCOMET-XL")
-    parser.add_argument("--hugginface_token", type=str, default="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")
+    parser.add_argument("--hugginface_token", type=str, default="YOUR TOKEN")
     parser.add_argument("--output_folder", type=str, default='results')
     parser.add_argument("--metrics", nargs='*', type=str, default=["rougeL", "nltk_bleu", "nist", "sacrebleu", "meteor", "bertscore", "exact_match"])
     parser.add_argument("--test_set", type=str, default="train_dev_test/test.jsonl")
