@@ -5,7 +5,7 @@ from huggingface_hub import login
 from transformers import AutoModelForCausalLM, AutoTokenizer, BitsAndBytesConfig
 
 def load_model(args, tokenizer):
-    login(args.hugginface_token)
+    login(args.read_hugginface_token)
     settings = dict(pretrained_model_name_or_path=args.pretrained_model_name_or_path,
                     device_map='auto')
 
@@ -26,7 +26,7 @@ def load_model(args, tokenizer):
         return model
 
 def load_tokenizer(args):
-    login(args.hugginface_token)
+    login(args.read_hugginface_token)
     tokenizer = AutoTokenizer.from_pretrained(args.pretrained_model_name_or_path,
                                               padding_side="left",
                                               #use_fast=False,
