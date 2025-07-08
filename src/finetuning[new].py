@@ -196,7 +196,7 @@ if __name__ == '__main__':
     parser.add_argument('--language', type=str, default='nl')
     parser.add_argument('--streaming', action='store_true', help='Load a large dataset as IterableDataset')
     parser.add_argument('--base_model_name', type=str)
-    parser.add_argument('--hugginface_token', type=str, default='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')
+    parser.add_argument('--hugginface_token', type=str, default='YOUR TOKEN')
     parser.add_argument('--train_filename', type=str, nargs='+', default='data/train.jsonl')
     parser.add_argument('--dev_filename', type=str, nargs='+', default='data/dev.jsonl')
     parser.add_argument('--qlora', action='store_true')
