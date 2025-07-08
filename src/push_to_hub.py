@@ -12,12 +12,9 @@ def load_model(args, tokenizer):
     model = AutoModelForCausalLM.from_pretrained(**settings)
     model.eval()
 
-    if args.peft_model_name_or_path!= "None":
-        peft_model = PeftModel.from_pretrained(model, args.peft_model_name_or_path)
-        peft_model.eval()
-        return peft_model.merge_and_unload()
-    else:
-        return model
+    peft_model = PeftModel.from_pretrained(model, args.peft_model_name_or_path)
+    peft_model.eval()
+    return peft_model
 
 def load_tokenizer(args):
     login(args.read_hugginface_token)
