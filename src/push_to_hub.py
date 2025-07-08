@@ -9,12 +9,6 @@ def load_model(args, tokenizer):
     settings = dict(pretrained_model_name_or_path=args.pretrained_model_name_or_path,
                     device_map='auto')
 
-    if args.quantization:
-        settings['quantization_config'] = BitsAndBytesConfig(
-            load_in_4bit=True, bnb_4bit_use_double_quant=True,
-            bnb_4bit_quant_type="nf4",
-            bnb_4bit_compute_dtype=torch.float16)
-
     model = AutoModelForCausalLM.from_pretrained(**settings)
     model.eval()
 
