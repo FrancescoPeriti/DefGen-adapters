@@ -71,7 +71,7 @@ model_path="models/LlamaDictionary-sv_ML38BI/checkpoint-12038"
 sbatch --time=00:40:00 bash/_push_to_hub.sh "$model_path" "LlamaDictionary-sv_ML38BI"
 
 # TR
-model_path="models/LlamaDictionary-sv_ML38BI/checkpoint-2176"
+model_path="models/LlamaDictionary-tr_ML38BI/checkpoint-2176"
 sbatch --time=00:40:00 bash/_push_to_hub.sh "$model_path" "LlamaDictionary-tr_ML38BI"
 
 # ZH
