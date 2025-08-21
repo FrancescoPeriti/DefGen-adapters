@@ -77,4 +77,17 @@ bash bash/multilingual_evaluation.sh # definition generation with multilingual m
 You can use the ```plot.ipynb``` notebook to generate all the plots.
 
 ## Reference
-bla bla bla ...
+Francesco Periti, Roksana Goworek, Haim Dubossarsky, and Nina Tahmasebi. 2025. [Definition Generation for Word Meaning Modeling: Monolingual, Multilingual, and Cross-Lingual Perspectives](). In Proceedings of the 2025 Conference on Empirical Methods in Natural Language Processing. Association for Computational Linguistics. TO APPEAR
+
+**BibTeX:**
+```
+@inproceedings{periti2025definition,
+    title = {{Definition Generation for Word Meaning Modeling: Monolingual, Multilingual, and Cross-Lingual Perspectives}},
+    author = "Periti, Francesco and Goworek, Roksana and Dubossarsky, Haim and Tahmasebi, Nina",
+    booktitle = "Proceedings of the 2025 Conference on Empirical Methods in Natural Language Processing",
+    year = "2025",
+    address = "Suzhou, China",
+    publisher = "Association for Computational Linguistics",
+    note = {{TO APPEAR; reach out for more information}}}
+}
+```
